@@ -42,7 +42,7 @@
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="./distance.html">Distance</a>
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" aria-disabled="true">Disabled</a>
@@ -74,7 +74,7 @@
         <li><a class="dropdown-item" href="#" id="youth-filter">youth</a></li>
         <li><a class="dropdown-item" href="#" id="kidz-filter">kids</a></li>
         <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">volunters</a></li>
+        <li><a class="dropdown-item" href="#" id="others-filter">volunters and workers</a></li>
       </ul>
     </div>
     
@@ -207,6 +207,17 @@
           markers[i].position = null;
       }
     }
+    function othersFilter(){
+      for (var i = 0; i < markers.length; i++)
+      {
+        if (markers[i].level == "mentor"|| markers[i].level == "worker")
+          markers[i].position = {lat: locations[i].lat,  
+                                 lng: locations[i].lng
+                                };
+        else 
+          markers[i].position = null;
+      }
+    }
 
     function search()
     {
@@ -223,6 +234,7 @@
 
     document.getElementById("youth-filter").addEventListener("click", filterYouth);
     document.getElementById("kidz-filter").addEventListener("click", filterKidz);
+    document.getElementById("others-filter").addEventListener("click", othersFilter);
     function showAll()
     {
       for (var i = 0; i < markers.length; i++) 
