@@ -8,3 +8,17 @@ html, body {
     padding: 0;
 }
 
+nav {
+    background-color: black;
+    color: white;
+    
+
+  }
+  
+  ul  {
+    display: inline;
+  }
+  ul li {
+    display: inline;
+    list-style: none;
+  }
