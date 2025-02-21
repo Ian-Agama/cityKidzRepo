@@ -46,9 +46,13 @@
   </div>
     <h1> Welcome to this CityKidx mapping application</h1>
     <h3>Enter an address</h3>
-    <input id="demo" type="text">
-    <input id="demo-level" type="text"><!--level of the added person-->   
-    <p><button  type="button" class="btn btn-primary btn-sm"id="geocode">Add Kid!</button></p>
+    <label for="">address</label>
+    <input id="demo" type="text"><br>
+    <label for="">level</label>
+    <input id="demo-level" type="text"><br><!--level of the added person--> 
+    <label for="">name</label>
+    <input id="demo-name" type="text"><!--level of the added person-->   
+    <p><button  type="button" class="btn btn-primary btn-sm"id="geocode">Add!</button></p>
     <br /> <br />
     <span id="coords" style="font-size:22px;"></span>
     <br>
@@ -170,6 +174,24 @@
       }
       geocoder = new google.maps.Geocoder();//service object 
 
+
+      contentString = 
+        "<h3>CityKids Hamilton</h3>" +
+        "hoping to provide to the less fortunate kids of Hamilton" +
+        "<link src=\"https://citykidz.ca/" + 
+        "width=\"100\">";
+
+      // create the infowindow
+      const infowindow = new google.maps.InfoWindow({
+       content: contentString,
+      });
+      
+      // open the info window with the tim horton field marker as the anchor
+      infowindow.open({
+        anchor: position,
+        shouldFocus: false,
+      });
+
   }
       
 
@@ -248,7 +270,7 @@
     function codeAddress() {
       let address = document.getElementById('demo').value;
       let level_value = document.getElementById("demo-level").value;
-
+      let named = document.getElementById("demo-name").value;
       // perform geocoding for the address entered into the input textbox, a 
       // callback function is given the latitude and longitude as an an 
       // argument as part of a results object..
@@ -260,6 +282,7 @@
             "coords: " + 
             results[0].geometry.location.lat() + ", " + 
             results[0].geometry.location.lng()
+            //locations.push({ named, level_value, results[0].geometry.location.lat(), lng });
         }else if (level_value == "kidz"){
           new_icon = "http://maps.google.com/mapfiles/kml/paddle/pink-blank.png";
           document.getElementById("coords").innerHTML =
