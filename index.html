@@ -72,7 +72,7 @@
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#" id="all">All</a></li>
         <li><a class="dropdown-item" href="#" id="youth-filter">youth</a></li>
-        <li><a class="dropdown-item" href="#">kids</a></li>
+        <li><a class="dropdown-item" href="#" id="kidz-filter">kids</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="#">volunters</a></li>
       </ul>
@@ -195,6 +195,19 @@
       }
     }
 
+    function filterKidz()
+    {
+      for (var i = 0; i < markers.length; i++)
+      {
+        if (markers[i].level == "kidz")
+          markers[i].position = {lat: locations[i].lat,  
+                                 lng: locations[i].lng
+                                };
+        else 
+          markers[i].position = null;
+      }
+    }
+
     function search()
     {
       for (var i = 0; i < markers.length; i++)
@@ -209,7 +222,7 @@
     }
 
     document.getElementById("youth-filter").addEventListener("click", filterYouth);
-    
+    document.getElementById("kidz-filter").addEventListener("click", filterKidz);
     function showAll()
     {
       for (var i = 0; i < markers.length; i++) 
