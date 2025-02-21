@@ -47,10 +47,11 @@
     <h1> Welcome to this CityKidx mapping application</h1>
     <h3>Enter an address</h3>
     <input id="demo" type="text">
-   
+    <input id="demo-level" type="text"><!--level of the added person-->   
     <p><button  type="button" class="btn btn-primary btn-sm"id="geocode">Add Kid!</button></p>
     <br /> <br />
     <span id="coords" style="font-size:22px;"></span>
+    <br>
 
 
     <!-- onclick="search()" -->
@@ -172,9 +173,9 @@
   }
       
 
-      initMap();
-      function filterYouth()
-      {
+    initMap();
+    function filterYouth()
+    {
       for (var i = 0; i < markers.length; i++)
       {
         if (markers[i].level == "youth")
@@ -246,21 +247,40 @@
 
     function codeAddress() {
       let address = document.getElementById('demo').value;
+      let level_value = document.getElementById("demo-level").value;
 
       // perform geocoding for the address entered into the input textbox, a 
       // callback function is given the latitude and longitude as an an 
       // argument as part of a results object..
       geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == 'OK') {
+           if (level_value == "youth"){
+          new_icon = "http://maps.google.com/mapfiles/kml/paddle/grn-blank.png";
+          document.getElementById("coords").innerHTML =
+            "coords: " + 
+            results[0].geometry.location.lat() + ", " + 
+            results[0].geometry.location.lng()
+        }else if (level_value == "kidz"){
+          new_icon = "http://maps.google.com/mapfiles/kml/paddle/pink-blank.png";
+          document.getElementById("coords").innerHTML =
+            "coords: " + 
+            results[0].geometry.location.lat() + ", " + 
+            results[0].geometry.location.lng()
+        }else{
+          new_icon = "http://maps.google.com/mapfiles/kml/paddle/blu-blank.png";
+          document.getElementById("coords").innerHTML =
+            "coords: " + 
+            results[0].geometry.location.lat() + ", " + 
+            results[0].geometry.location.lng()
+        }
+            
+
           
           // we could center the map at the location
           // map.setCenter(results[0].geometry.location);
           
           // put the latitude and longitude on the page as text
-          document.getElementById("coords").innerHTML =
-            "coords: " + 
-            results[0].geometry.location.lat() + ", " + 
-            results[0].geometry.location.lng();
+          ;
            
           // put a marker on the map at the given position
           var marker = new google.maps.marker.AdvancedMarkerElement({
