@@ -1,0 +1,29 @@
+* [33mcommit 24e4fed904dcce4e7351ae856bf702cc6b9eea1a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+[31m|[m Author: ian_RodericK_Agama <161982813+Ian-Agama@users.noreply.github.com>
+[31m|[m Date:   Thu Feb 20 22:42:08 2025 -0500
+[31m|[m 
+[31m|[m     covering the various additions
+[31m|[m 
+* [33mcommit 9ed71eefc2599a4371c3df3d1b1ec7859f18d0b8[m
+[31m|[m Author: ian_RodericK_Agama <161982813+Ian-Agama@users.noreply.github.com>
+[31m|[m Date:   Thu Feb 20 22:40:52 2025 -0500
+[31m|[m 
+[31m|[m     adding the css properties
+[31m|[m 
+* [33mcommit 8d3076d632cbcb67a1e8f829d418c72e45724880[m
+[31m|[m Author: ian_RodericK_Agama <161982813+Ian-Agama@users.noreply.github.com>
+[31m|[m Date:   Thu Feb 20 22:26:21 2025 -0500
+[31m|[m 
+[31m|[m     corrections for the bootstrap cdns
+[31m|[m 
+* [33mcommit 90ed9e61f7a7685e2dfa0b10263e4ec1801bf8a8[m
+[31m|[m Author: ian_RodericK_Agama <161982813+Ian-Agama@users.noreply.github.com>
+[31m|[m Date:   Thu Feb 20 22:15:23 2025 -0500
+[31m|[m 
+[31m|[m     added the first iteration ofthe button
+[31m|[m 
+* [33mcommit 717e442af240cdbe7a1f40c6a3aa2b9cd7c35a9f[m
+  Author: ian_RodericK_Agama <161982813+Ian-Agama@users.noreply.github.com>
+  Date:   Thu Feb 20 22:07:09 2025 -0500
+  
+      adding index.html first commit
