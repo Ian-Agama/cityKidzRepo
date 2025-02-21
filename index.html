@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityKidZ mapping solution</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      #nav {
+        background-color: black;
+        color: white;
+        
+
+      }
+      
+      ul  {
+        display: inline;
+      }
+      ul li {
+        display: inline;
+        list-style: none;
+      }
+    </style>
+    <script src="../js/locations.js"></script>
+</head>
+<body>
+  <header >
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">CityKidz</a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+  </header>
+  </div>
+    <h1> Welcome to this CityKidx mapping application</h1>
+    <h3>Enter an address</h3>
+    <input id="demo" type="text">
+    <p><button onclick="search()" type="button" class="btn btn-primary btn-sm"i>Add Kid!</button></p>
+
+
+    <!-- Example single danger button -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Filter
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Filter</a></li>
+        <li><a class="dropdown-item" href="#">youth</a></li>
+        <li><a class="dropdown-item" href="#">kids</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">volunters</a></li>
+      </ul>
+    </div>
+    
+
+
+    <!--holding the map-->
+    
+
+    <!--
+    creating the map here 
+    and then geo encoding this application with 10 spots 
+    -->
+    <div id="map"></div>
+
+
+    <div id = "others">
+      <button type="button" class="btn-sm" id=""></button>
+    </div>
+    
+    <script>
+      // Initialize and add the map
+      let map;
+      let markers =  [];
+
+      async function initMap() {
+        // The location of Citykidz
+        const position = {lat:43.267295,lng: -79.836670 };
+        // Request needed libraries.
+        //@ts-ignore
+       // const { Map } = await google.maps.importLibrary("maps");
+        //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        // The map, centered at Citykidz
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 12,
+          center: position,
+          mapId: "DEMO_MAP_ID",
+        });
+
+        // The marker, positioned at Citykidz
+        marker = new google.maps.marker.AdvancedMarkerElement({
+          map: map,
+          position: position,
+          title: "cityKidz",
+        });
+        let infoWindow = new google.maps.InfoWindow();
+
+        let marker_clicked = function (){
+          infoWindow.close();
+          infoWindow.setContent(this.name);
+          infoWindow.open(map, this);
+
+        }
+        //filter variables
+
+        // for(i=0; i< locations.length;i++){
+        //   if(locations[i].level=="youth"){
+        //     new_icon =""; 
+        //   }else if(locations[i].level=="kidz"){
+        //     new_icon 
+        //   }
+        // }
+        
+        
+
+      // put markers on the map for all the schools in locations.js 
+      for (var i = 0; i < locations.length; i++)
+      {
+        // set the icon based on the category of the school
+        if (locations[i].level == "youth")
+          new_icon = "http://maps.google.com/mapfiles/kml/paddle/grn-blank.png";
+        else if (locations[i].level == "kidz")
+          new_icon = "http://maps.google.com/mapfiles/kml/paddle/pink-blank.png";
+        else 
+          new_icon = "http://maps.google.com/mapfiles/kml/paddle/blu-blank.png";
+
+        // create the icon element
+        const icon_content = document.createElement("img");
+        icon_content.src = new_icon;
+
+        // create the marker based on the array in the locations.js file
+        let new_marker = new google.maps.marker.AdvancedMarkerElement({
+          map: map,
+          position: {lat: locations[i].lat,  
+                     lng: locations[i].lng
+                    },
+          title: locations[i].name, 
+          content: icon_content
+        });
+
+        // store the name of the school as a property of the marker object
+        new_marker.name = locations[i].name;
+        new_marker.level = locations[i].level;
+        
+        // have the info window open when the marker is clicked...
+        new_marker.addListener('click', marker_clicked);
+
+        markers.push(new_marker);
+      }
+
+      }
+      
+
+      initMap();
+      function filterYouth()
+    {
+      for (var i = 0; i < markers.length; i++)
+      {
+        if (markers[i].level == "youth")
+          markers[i].position = {lat: locations[i].lat,  
+                                 lng: locations[i].lng
+                                };
+        else 
+          markers[i].position = null;
+      }
+    }
+
+    document.getElementById("kids-btn").addEventListener("click", filterYouth);
+    
+    function showAll()
+    {
+      for (var i = 0; i < markers.length; i++) 
+      {
+        markers[i].position = {lat: locations[i].lat,  
+                               lng: locations[i].lng
+                              };
+      }
+    }
+
+    document.getElementById("all").addEventListener("click", showAll);
+      
+    </script>
+
+
+
+
+    <!--<script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+          key: "AIzaSyDFBlay5UXC0RInSkvrYPWECE7wu4cUMNc",
+          v: "weekly",
+          // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+          // Add other bootstrap parameters as needed, using camel case.
+        });
+    </script>-->
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFBlay5UXC0RInSkvrYPWECE7wu4cUMNc&callback=initMap&loading=async&libraries=marker" defer ></script>
+    <footer>
+      <p>if you wish to know all about and more about my work </p>
+  
+      <p>&#169;2025, Roderick Agama</p>
+  </footer>
+</body>
+</html>
