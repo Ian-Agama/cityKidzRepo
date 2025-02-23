@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CityKidZ mapping solution</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityKidZ Mapping Solution</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!--StAuth10244: I Roderick Agama, 000924363 certify that this material is my original work. No other person's work has been used without due acknowledgement. I have not made my work available to anyone else."-->
+    <script src="../js/locations.js"></script>
+</head>
+<body>
+  <header >
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">BigRedBus</a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./distance.html">Distance</a>
+            </li>
+            
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit" id="searchIt">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+  </header>
+  </div>
+    <h1> Welcome to this CityKidz mapping application</h1>
+    <h3>Enter a name</h3><!--helps find the name of the child ones looking for-->
+    <input id="demo" type="text">
+    <p><button onclick="search()" type="button" class="btn btn-primary btn-sm"i>Search!</button></p>
+
+
+    <!-- Example single danger button -->
+  
+    
+
+
+    <!--holding the map-->
+    
+
+    <!--
+    creating the map here 
+    and then geo encoding this application with 10 spots 
+    -->
+    <div id="map"></div>
+
+
+    <br>
+
+    
+    <script>
+      // Initialize and add the map
+      let map;
+      let markers =  [];
+       
+
+      async function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        //distanceService = new google.maps.DistanceMatrixService();
+        // The location of Citykidz
+        const position = {lat:43.267295,lng: -79.836670 };
+        // Request needed libraries.
+        //@ts-ignore
+       // const { Map } = await google.maps.importLibrary("maps");
+        //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        // The map, centered at Citykidz
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 12,
+          center: position,
+          mapId: "DEMO_MAP_ID",
+        });
+
+        // The marker, positioned at Citykidz
+        marker = new google.maps.marker.AdvancedMarkerElement({
+          map: map,
+          position: position,
+          title: "cityKidz",
+        });
+        contentString = 
+        "<h3>CityKids Hamilton</h3>" +
+        "hoping to provide to the less fortunate kids of Hamilton" +
+        "<link src=\"https://citykidz.ca/" + 
+        "width=\"100\">";
+
+        const infoWindow = new google.maps.InfoWindow({
+            content: contentString,
+        });
+
+        let marker_clicked = function (){
+          infoWindow.close();
+          infoWindow.setContent(this.name);
+          infoWindow.open(map, this);
+
+        }
+        //filter variables
+
+        // for(i=0; i< locations.length;i++){
+        //   if(locations[i].level=="youth"){
+        //     new_icon =""; 
+        //   }else if(locations[i].level=="kidz"){
+        //     new_icon 
+        //   }
+        // }
+        
+        
+
+      // put markers on the map for all the schools in locations.js 
+     
+
+
+
+      /**
+       * 
+       * */
+       for (let i = 0; i < locations.length; i++) {
+            let marked= new google.maps.Marker({
+              map: map,
+              position: { lat: locations[i].lat, lng: locations[i].lng },
+              title: locations[i].name
+            });
+
+        marked.addListener('click', function() {
+          calculateDistance(cityKidzLocation, locations[i]);
+        });
+
+        markers.push(marked);
+      }
+      function calculateDistance(origin, destination) {
+      let request = {
+        origins: "601 Burlington St E A, Hamilton, ON ", // CityKidz
+        destinations: [{ lat: destination.lat, lng: destination.lng }], // Selected child location
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC
+      };
+
+      distanceService.route(request, function(response, status) {
+        if (status === "OK") {
+          let distanceText = response.rows[0].elements[0].distance.text;
+          let durationText = response.rows[0].elements[0].duration.text;
+          directionsRenderer.setDirections(result);
+          console.log(result);
+        } else {
+          console.error("Distance Matrix request failed due to:", status);
+        }
+      })
+    
+
+    }
+  }
+      
+
+      initMap();
+      
+
+    function search(){
+    let searchName = document.getElementById("demo").value.toLowerCase();
+    
+    for (let i = 0; i < locations.length; i++) {
+      if (locations[i].name.toLowerCase() === searchName) {
+        calculateDistance({ lat: 43.267295, lng: -79.836670 }, locations[i]);
+        return;
+      }
+    }
+
+    alert("Location not found!");
+    }
+  
+    
+  
+
+    
+    function showAll()
+    {
+      for (var i = 0; i < markers.length; i++) 
+      {
+        markers[i].position = {lat: locations[i].lat,  
+                               lng: locations[i].lng
+                              };
+      }
+    }
+
+    document.getElementById("all").addEventListener("click", showAll);
+      
+    </script>
+
+
+
+
+    <!--<script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+          key: "API_KEY_HERE",
+          v: "weekly",
+          // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+          // Add other bootstrap parameters as needed, using camel case.
+        });
+    </script>-->
+    <script async src="https://maps.googleapis.com/maps/api/js?key=API_KEY_HERE&callback=initMap&loading=async&libraries=marker" defer ></script>
+    <footer>
+      <p>if you wish to know all about and more about my work </p>
+  
+      <p>&#169;2025, Roderick Agama</p>
+  </footer>
+</body>
+</html>
